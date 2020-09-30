@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title> Student Data</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div>
+      <div>
+        <form action="./studentsList.html">
+            
+            <label id="label-name">Name:</label>
+            <input id="sname" type="text" name="name"><br>
+            <label id="checkname"></label><br>
+
+            <label id="lb2">Email:</label>
+            <input id="semail" type="email" name="email"><br>
+            <label id="checkmail"></label><br>
+
+            <label id="lb3">Contact Number:</label>
+            <input id="scontactNumber" type="text" name="phone"><br>
+            <label id="checknumber"></label><br>
+
+            <label id="lb5">Password</label>
+            <input id="spassword" type="password" name="password"><br>
+            <label id="checkpassword"></label><br>
+
+            <label id="lb6">Confirm Password</label>
+            <input id="sconfirmpassword" type="password" name="confirmpassword"><br><br>
+            <label id="checkconfirmpassword"></label><br>
+
+
+            <button onclick="studentPannel()" type="submit" id="btn" ><a id="submit-button">Submit</a></button> 
+            
+        </form>
+           </div>
+           
+        </div>
+        
+    
+        <script src="./script/validation.js"></script>
+        <script src="./script/studentManager.js"></script>
+
+   </body>
+   </html> 

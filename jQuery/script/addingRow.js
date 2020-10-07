@@ -1,7 +1,25 @@
+let dataFromApi;
+
+function gettingDataFromApi(){
+    $.ajax({
+        url:"https://localhost:44386/api/student",
+        method:"GET",
+        dataType:"json",
+        success:function(result){
+            dataFromApi = JSON.parse(JSON.stringify(result))
+            console.log(dataFromApi);
+            displayTable();
+        }
+    });
+
+}
+gettingDataFromApi();
+
 function addingRow(){
+    debugger;
     var studentArray = JSON.parse(localStorage.getItem("info"));
     let index = studentArray.length;
-
+    
     var row=`<tr >
     <td><input id="iname-${index}" type="text" name="name"><td>
     <td><input id="iemail-${index}" type="email" name="email"><td>
@@ -24,17 +42,21 @@ function addingRow(){
     }
     
     function displayTable(){
+
+        debugger;
         var studentArray = JSON.parse(localStorage.getItem("info"));
-    
-        if (studentArray != null) {
-        for (i = 0; i < studentArray.length; i++) {
+        console.log(dataFromApi);
+    // get data from database
+    debugger;
+        if (dataFromApi != null) {
+        for (i = 0; i < dataFromApi.length; i++) {
             var row = `<tr>
         
-               <td><span id="name-${i}">${studentArray[i].name}</span><input id="iname-${i}" type="text" ></td>
-               <td><span id="email-${i}">${studentArray[i].email}</span><input id="iemail-${i}" type="email" ></td>
-               <td><span id="contact-${i}">${studentArray[i].contact}</span><input id="icontact-${i}" type="contact" ></td>
-               <td><span id="password-${i}">${studentArray[i].password}</span><input id="ipassword-${i}" type="password" ></td>
-               <td><span id="confirmpassword-${i}">${studentArray[i].conformPassword}</span><input id="iconfirmpassword-${i}" type="password" ></td>
+               <td><span id="name-${i}">${dataFromApi[i].Name}</span><input id="iname-${i}" type="text" ></td>
+               <td><span id="email-${i}">${dataFromApi[i].Email}</span><input id="iemail-${i}" type="email" ></td>
+               <td><span id="contact-${i}">${dataFromApi[i].Contact}</span><input id="icontact-${i}" type="contact" ></td>
+               <td><span id="password-${i}">${dataFromApi[i].Password}</span><input id="ipassword-${i}" type="password" ></td>
+               <td><span id="confirmpassword-${i}">${dataFromApi[i].ConfirmPassword}</span><input id="iconfirmpassword-${i}" type="password" ></td>
                
                <td><button id="edit-${i}" onclick="editRow(${i},this)" data-id="${i}">Edit</button></td>
                <td><button id="delete-${i}" onclick="deleteRow(${i},this)" data-id="${i}">Delete</button></td>
@@ -48,9 +70,10 @@ function addingRow(){
         }
             
         }
-        displayTable();
+       
 
         function editRow(index,obj){
+            //put
 
             debugger
             $(obj).parent().parent().find('span').hide();
@@ -76,6 +99,7 @@ function addingRow(){
            
     
 function storingInfo(student,index){
+    //post
     let array1 = JSON.parse(localStorage.getItem("info"));
     if(array1==null) array1=[];
     array1.splice(index,1,student);
@@ -93,15 +117,25 @@ function savingRow(index){
         conformPassword:$(`#iconfirmpassword-${index}`).val(),
         
     }
+    
     storingInfo(student,index);
     window.location.reload();
     
 }
 function deleteRow(index){
-    var studentArray = JSON.parse(localStorage.getItem("info"));
-    studentArray.splice(index,1);
-    localStorage.setItem("info",JSON.stringify(studentArray));
-    window.location.reload();
+    $.ajax({
+        url:"https://localhost:44386/api/student/" + $(this).attr("data-id"),
+        method:"DELETE",
+        dataType:"json",
+        success:function(result){
+            button.parent("td").remove();
+
+        }
+    });
+    // var studentArray = JSON.parse(localStorage.getItem("info"));
+    // studentArray.splice(index,1);
+    // localStorage.setItem("info",JSON.stringify(studentArray));
+    // window.location.reload();
 }
 function cancelRow(){
     window.location.reload();

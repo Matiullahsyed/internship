@@ -13,35 +13,35 @@ namespace webApi.Controller
     public class StudentController : ApiController
     {
 
-        StudentServices service = new StudentServices();
+        StudentServices service = new StudentServices(new SchoolContext());
 
         // POST/webApi/Students
         [HttpGet]
         public IHttpActionResult GetStudents()
         {
-            return Ok(service.GetStudents());
+            var students = service.GetAll();
+            if (students == null) return NotFound();
+            return Ok(students);
         }
 
-        // GET/webApi/Students/1
-        [HttpGet]
-        public IHttpActionResult GetStudent(int id)
-        {
-            return Ok(JsonConvert.SerializeObject(service.GetStudent(id)));
-        }
+        
 
         // POST/webApi/Students/StudentObjet
         [HttpPost]
         public IHttpActionResult PostStudent(Student student)
         {
-            service.AddStudent(student);
+
+            if (student == null) return BadRequest();
+            service.Post(student);
             return Ok("Student has been Added");
+            
         }
 
         // DELET/webApi/Students/1
         [HttpDelete]
         public IHttpActionResult DeleteStudent(int id)
         {
-            service.DeleteStudent(id);
+            service.Delete(id);
             return Ok(" Student has been Deleted");
         }
 
@@ -49,7 +49,8 @@ namespace webApi.Controller
         [HttpPut]
         public IHttpActionResult UpdateStudent(Student student)
         {
-            service.UpdateStudent(student);
+            if (student == null) return BadRequest();
+            service.Update(student);
             return Ok("Student has been updateds");
         }
 

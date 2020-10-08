@@ -7,64 +7,68 @@ using System.Threading.Tasks;
 
 namespace StudentRepositry
 {
-    public class StudentServices
+    public class StudentServices : BaseRepositry <Student>
     {
 
-        public IEnumerable<Student> GetStudents()
+        public StudentServices (SchoolContext context) : base(context)
         {
-            using ( var _context = new SchoolContext())
-            {
-                var students = _context.Students.ToList();
-                return students;
 
-            }
         }
+        //public IEnumerable<Student> GetStudents()
+        //{
+        //    using ( var _context = new SchoolContext())
+        //    {
+        //        var students = _context.Students.ToList();
+        //        return students;
+
+        //    }
+        //}
           
-        public Student GetStudent(int id)
-        {
-            using (var _context= new SchoolContext())
-            {
+        //public Student GetStudent(int id)
+        //{
+        //    using (var _context= new SchoolContext())
+        //    {
                 
 
-                return _context.Students.SingleOrDefault(c => c.Id == id);
+        //        return _context.Students.SingleOrDefault(c => c.Id == id);
                 
-            }
-        }
-        public void AddStudent(Student student)
-        {
+        //    }
+        //}
+        //public void AddStudent(Student student)
+        //{
             
-            using (var _context = new SchoolContext())
-            {
-                _context.Students.Add(student);
-                _context.SaveChanges();
-            }
-        }
-        public void DeleteStudent(int id)
-        {
-            using (var _context = new SchoolContext())
-            {
-                var studentToDelete = _context.Students.FirstOrDefault(s => s.Id == id);
-                _context.Students.Remove(studentToDelete);
-                _context.SaveChanges();
-            }
+        //    using (var _context = new SchoolContext())
+        //    {
+        //        _context.Students.Add(student);
+        //        _context.SaveChanges();
+        //    }
+        //}
+        //public void DeleteStudent(int id)
+        //{
+        //    using (var _context = new SchoolContext())
+        //    {
+        //        var studentToDelete = _context.Students.FirstOrDefault(s => s.Id == id);
+        //        _context.Students.Remove(studentToDelete);
+        //        _context.SaveChanges();
+        //    }
 
-        }
-        public void UpdateStudent(Student student)
-        {
-            using (var _context = new SchoolContext())
-            {
-                var students = _context.Students.ToList();
-                var studentToUpdate = students.FirstOrDefault(s => s.Id == student.Id);
-                studentToUpdate.Name = student.Name;
-                studentToUpdate.Email = student.Email;
-                studentToUpdate.Contact = student.Contact;
-                studentToUpdate.Password = student.Password;
-                studentToUpdate.ConfirmPassword = student.ConfirmPassword;
+        //}
+        //public void UpdateStudent(Student student)
+        //{
+        //    using (var _context = new SchoolContext())
+        //    {
+        //        var students = _context.Students.ToList();
+        //        var studentToUpdate = students.FirstOrDefault(s => s.Id == student.Id);
+        //        studentToUpdate.Name = student.Name;
+        //        studentToUpdate.Email = student.Email;
+        //        studentToUpdate.Contact = student.Contact;
+        //        studentToUpdate.Password = student.Password;
+        //        studentToUpdate.ConfirmPassword = student.ConfirmPassword;
 
-                _context.SaveChanges();
-            }
+        //        _context.SaveChanges();
+        //    }
 
-        }
+        //}
     }
 
 }

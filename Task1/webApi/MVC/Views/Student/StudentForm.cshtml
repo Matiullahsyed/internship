@@ -1,0 +1,49 @@
+﻿@*@model List<CourseModels.Course>*@
+@model List<StudentModels.Course>
+@{
+    ViewBag.Title = "StudentForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>StudentForm</h2>
+
+@using (Html.BeginForm("AddStudent", "Student","Post"))
+{
+
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input class="form-control" id="Name" name="Name" type="text">
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input class="form-control" id="Email" name="Email" type="text" value="">
+    </div>
+
+    <div class="form-group">
+        <label for="Contact">Contact</label>
+        <input class="form-control" data-val="true" data-val-number="The field Contact must be a number." data-val-required="The Contact field is required." id="Contact" name="Contact" type="text" value="">
+    </div>
+
+    <div class="form-group">
+        <label><b>Course</b></label>
+        <select id="courseslct" class="form-control select22 "name="CoursesList" multiple searchable="Search here..">
+
+            @foreach (var course in Model)
+            {
+            <option value="@course.CourseId" class="select2">@course.Name</option>
+            }
+        </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input class="form-control" id="Password" name="Password" type="text" value="">
+        </div>
+
+        <div class="form-group">
+            <label for="ConfirmPassword">ConfirmPassword</label>
+            <input class="form-control" id="ConfirmPassword" name="ConfirmPassword" type="text" value="">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        }

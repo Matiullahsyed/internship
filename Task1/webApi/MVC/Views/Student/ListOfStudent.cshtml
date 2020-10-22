@@ -1,0 +1,40 @@
+﻿@model List<StudentRepositry.DTO.StudentPostDto>
+@{
+    ViewBag.Title = "ListOfStudent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List Of Student</h2>
+<a class="btn btn-primary" href="@Url.Action("StudentForm","Student")">Add New Student</a>
+<table id="students-Data">
+    <thead>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Contact Number</th>
+    <th>Courses count</th>
+    <th>Password</th>
+    <th>Confirm Password</th>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.student.Name</td>
+                <td>@student.student.Email</td>
+                <td>@student.student.Contact</td>
+                <td>@student.CoursesCount</td>
+                <td>@student.student.Password</td>
+                <td>@student.student.ConfirmPassword</td>
+                <td><button class="btn btn-warning"><a href="@Url.Action("EditStudentRecord","Student", new { id = student.student.Id})">Edit</a></button></td>
+                <td><button class="btn btn-danger"><a href="@Url.Action("DeletStudentRecord","Student",new { id = student.student.Id})">Delete</a></button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#students-data").DataTable();
+        });
+    </script>
+}

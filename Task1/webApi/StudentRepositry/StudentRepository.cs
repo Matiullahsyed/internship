@@ -7,7 +7,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace StudentRepositry
 {
   public class StudentRepository : BaseRepositry<Student>
@@ -23,7 +22,6 @@ namespace StudentRepositry
             std.Contact = student.Contact;
             std.Password = student.Password;
             std.ConfirmPassword = student.ConfirmPassword;
-
             using (var context = new SchoolContext())
             {
                 context.Students.Add(std);
@@ -109,8 +107,7 @@ namespace StudentRepositry
                             courseList.Add(course_Obj);
                         }
                         db.StudentCourses.AddRange(courseList);
-                        db.SaveChanges();
-                        
+                        db.SaveChanges(); 
                     }
                 }
             }
@@ -121,7 +118,36 @@ namespace StudentRepositry
              Delete(id);
             return false;
         }
+        public List<StudentPostDto> GetAllStudents(Pager pager)
+        {
+            List<Pager> StudentList = new List<Pager>();
+            try
+            {
+                using (SchoolContext db = new SchoolContext())
+                {
+                    var students = (from s in db.Students
+                                     select new StudentPostDto()
+                                     {
+                                         Id = s.Id,
+                                         Name = s.Name,
+                                         Email = s.Email,
+                                         Contact = s.Contact,
+                                         Password = s.Password,
+                                         ConfirmPassword = s.ConfirmPassword,
+                                         CoursesCount = db.StudentCourses.Where(sc => sc.Id == s.Id).Count(),
+                                     }).OrderBy(x => x.Id).Skip(pager.start).Take(pager.length).ToList();
+                    students[0].TotalRecord = db.Students.Count();
+                    return students;
+                }
+            }
+
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
+    }
         }
     
 

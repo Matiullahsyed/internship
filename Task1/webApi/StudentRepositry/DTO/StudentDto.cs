@@ -25,6 +25,9 @@ namespace StudentRepositry.DTO
         public List<int> CoursesList { get; set; }
         public int CoursesCount { get; internal set; }
         public List<CourseDto> Courses { get; set; }
+        public List<CourseDto> AllCourses { get; set; }
+        public object TotalRecord { get; set; }
+        public int StudentCourseCount { get; internal set; }
     }
     public class CourseDto 
     {

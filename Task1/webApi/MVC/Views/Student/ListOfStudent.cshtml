@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "ListOfStudent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>List Of Student</h2>
+<a class="btn btn-primary" href="@Url.Action("StudentForm","Student")">Add New Student</a>
+
+<table id="myTable">
+    <thead>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Contact Number</th>
+    <th>Courses count</th>
+    <th>Password</th>
+    <th>Confirm Password</th>
+    <th>Edit</th>
+    <th>Delete</th>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#myTable").DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: "https://localhost:44348/Student/LoadData",
+                    method: "Post",
+                    dataSrc: "data"
+                },
+                columns: [
+
+
+                    {
+                        data: "Name"
+                    },
+                    {
+                        data: "Email"
+                    },
+                    {
+                        data: "Contact"
+                    },
+                    {
+                        data: "CoursesCount"
+                    },
+                    {
+                        data: "Password"
+                    },
+                    {
+                        data: "ConfirmPassword"
+                    },
+                    {
+                        data: "Id",
+                        render: function (data, type, row) {
+                            return `<a href="/Student/EditStudentRecord/${data}">
+                                    <button class="btn btn-warning">Edit</button></a>`;
+                        }
+                    },
+                    {
+                        data: "Id",
+                        render: function (data, type, row) {
+                            return `<a href="/Student/DeletStudentRecord/${data}">
+                                    <button class="btn btn-danger">Delete</button></a>`;
+                        }
+                    }
+                ]
+            }
+            );
+        });
+    </script>
+}

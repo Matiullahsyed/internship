@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentsCourse List</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" 
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" 
+    crossorigin="anonymous"></script>
+</head>
+<body>
+  
+  <form action="">
+    
+    <input id="cname" type="text" name="name"/><br>
+    <input id="cemail" type="email" name="email"/><br>
+    <input id="ccontact" type="text" name="phone"/><br>
+    <select id="ccourseRecord" multiple><option value=></option></select><br>
+    <input id="cpassword" type="password" name="password"/><br>
+    <input id="cconfirmpassword" type="password" name="confirmpassword"/><br>
+
+    <!-- <button id="save-"  onclick=savingRow(${index},this) >Save</button> -->
+ 
+    <input type="submit" value="Update">
+  </form> 
+  
+      <script src="./script/functionajax.js"></script>
+     
+      <script src="./script/editJquery.js"></script>
+      <script>
+        refillStudentCourseForm();
+      </script>
+</body>
+</html>

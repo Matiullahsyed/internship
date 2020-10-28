@@ -1,0 +1,59 @@
+﻿@model StudentRepositry.DTO.StudentPostDto
+@{
+    ViewBag.Title = "EditStudentRecord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>EditStudentRecord</h2>
+
+@using (Html.BeginForm("UpdateStudentRecord", "Student", "Put"))
+{
+    <input type="hidden" value="@Model.student.Id" name="Id"/>
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input class="form-control" id="Name" name="Name" value="@Model.student.Name" type="text">
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input class="form-control" id="Email" name="Email" type="text" value="@Model.student.Email">
+    </div>
+
+    <div class="form-group">
+        <label for="Contact">Contact</label>
+        <input class="form-control" data-val="true" data-val-number="The field Contact must be a number." data-val-required="The Contact field is required." id="Contact" name="Contact" type="text" value="@Model.Contact">
+    </div>
+
+    <div class="form-group">
+        <label><b>Course</b></label>
+        <select id="courseslct" class="form-control select22 " name="CoursesList" multiple searchable="Search here..">
+
+            @foreach (var course in Model.AllCourses)
+            {
+                var chck = true;
+                foreach (var stdcourse in Model.Courses)
+                {
+                    if (stdcourse.CourseId == course.CourseId)
+                    {
+                        <option value="@stdcourse.CourseId" class="select2" selected=true >@stdcourse.Name</option>
+                        chck = false;
+                    }
+                }
+                if (chck)
+                {
+                    <option value="@course.CourseId" class="select2">@course.Name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <input class="form-control" id="Password" name="Password" type="text" value="@Model.student.Password">
+    </div>
+
+    <div class="form-group">
+        <label for="ConfirmPassword">ConfirmPassword</label>
+        <input class="form-control" id="ConfirmPassword" name="ConfirmPassword" type="text" value="@Model.student.ConfirmPassword">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+}

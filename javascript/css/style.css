@@ -1,0 +1,47 @@
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+input {
+    margin: 20px;
+}
+
+#lb1,
+#lb2 {
+    margin-right: 80px;
+}
+
+#lb3 {
+    margin-right: 20px;
+}
+
+#lb4 {
+    margin-right: 90px;
+}
+
+#lb5 {
+    margin-right: 60px;
+}
+
+#btn {
+    margin-left: 180px;
+    size: 50px;
+    padding: 0px 30px;
+}
+
+table,
+td,
+th {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}

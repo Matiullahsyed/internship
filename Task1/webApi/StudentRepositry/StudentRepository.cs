@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace StudentRepositry
 {
-  public class StudentRepository : BaseRepositry<Student>
+    public class StudentRepository : BaseRepositry<Student>
     {
         public StudentRepository(SchoolContext context) : base(context)
         {
@@ -45,26 +45,27 @@ namespace StudentRepositry
                 var student = (from s in db.Students.Where(x => x.Id == id)
                                select new StudentPostDto()
                                {
-                                student = s,
-                                AllCourses= (from c in db.Courses
-                                select new CourseDto()
-                             {
-                                CourseId = c.CourseId,
-                                Name = c.Name
-                                }).ToList(),
-                                Courses = (from c in db.Courses
-                                join sc in db.StudentCourses on c.CourseId equals sc.CourseId  where sc.StudentId == id
-                                select new CourseDto()
-                                {
-                                CourseId=sc.CourseId,
-                                  Name=c.Name           
-                                }).ToList()
+                                   student = s,
+                                   AllCourses = (from c in db.Courses
+                                                 select new CourseDto()
+                                                 {
+                                                     CourseId = c.CourseId,
+                                                     Name = c.Name
+                                                 }).ToList(),
+                                   Courses = (from c in db.Courses
+                                              join sc in db.StudentCourses on c.CourseId equals sc.CourseId
+                                              where sc.StudentId == id
+                                              select new CourseDto()
+                                              {
+                                                  CourseId = sc.CourseId,
+                                                  Name = c.Name
+                                              }).ToList()
 
                                }).FirstOrDefault();
                 return student;
             }
         }
-        public List<StudentPostDto>  GetStudent()
+        public List<StudentPostDto> GetStudent()
         {
             using (SchoolContext db = new SchoolContext())
             {
@@ -107,7 +108,7 @@ namespace StudentRepositry
                             courseList.Add(course_Obj);
                         }
                         db.StudentCourses.AddRange(courseList);
-                        db.SaveChanges(); 
+                        db.SaveChanges();
                     }
                 }
             }
@@ -115,7 +116,7 @@ namespace StudentRepositry
         }
         public bool DeleteStudent(int id)
         {
-             Delete(id);
+            Delete(id);
             return false;
         }
         public List<StudentPostDto> GetAllStudents(Pager pager)
@@ -126,16 +127,16 @@ namespace StudentRepositry
                 using (SchoolContext db = new SchoolContext())
                 {
                     var students = (from s in db.Students
-                                     select new StudentPostDto()
-                                     {
-                                         Id = s.Id,
-                                         Name = s.Name,
-                                         Email = s.Email,
-                                         Contact = s.Contact,
-                                         Password = s.Password,
-                                         ConfirmPassword = s.ConfirmPassword,
-                                         CoursesCount = db.StudentCourses.Where(sc => sc.Id == s.Id).Count(),
-                                     }).OrderBy(x => x.Id).Skip(pager.start).Take(pager.length).ToList();
+                                    select new StudentPostDto()
+                                    {
+                                        Id = s.Id,
+                                        Name = s.Name,
+                                        Email = s.Email,
+                                        Contact = s.Contact,
+                                        Password = s.Password,
+                                        ConfirmPassword = s.ConfirmPassword,
+                                        CoursesCount = db.StudentCourses.Where(sc => sc.Id == s.Id).Count(),
+                                    }).OrderBy(x => x.Id).Skip(pager.start).Take(pager.length).ToList();
                     students[0].TotalRecord = db.Students.Count();
                     return students;
                 }
@@ -145,9 +146,28 @@ namespace StudentRepositry
             {
                 return null;
             }
-
+        }
+        public decimal AddStudentByStoredProcedure(Student student)
+        {
+            using (var db = new SchoolContext())
+            {
+                return db.AddStudentUsingSp(student);
+            }
+        }
+        public virtual void AddStudentCoursesBySp(int stdId, List<int> Courses)
+        {
+            foreach (var courseId in Courses)
+            {
+                StudentCourse studentCourseObj = new StudentCourse();
+                studentCourseObj.StudentId = stdId;
+                studentCourseObj.CourseId = courseId;
+                using (var context = new SchoolContext())
+                {
+                    context.AddStudentCourseUsingSp(studentCourseObj);
+                    context.SaveChanges();
+                }
+            }
         }
     }
-        }
-    
+}
 

@@ -36,14 +36,23 @@ namespace MVC.Controllers
         [HttpPost]
         public ActionResult AddStudent(StudentPostDto student)
         {
-            studentrepo.AddStudent(student);
+            var studentModel = new Student
+            {
+                Name = student.Name,
+                Email = student.Email,
+                Contact = student.Contact,
+                Password = student.Password,
+                ConfirmPassword = student.ConfirmPassword
+            };
+            var id = studentrepo.AddStudentByStoredProcedure(studentModel);
+            int studentId = Convert.ToInt32(id);
+            studentrepo.AddStudentCoursesBySp(studentId, student.CoursesList);
             return RedirectToAction("StudentList");
         }
         [HttpGet]
         public ActionResult EditStudentRecord(int id)
         {
             var student = studentrepo.GetStudentById(id);
-
             return View("EditStudentRecord", student);
         }
         [HttpPost]
@@ -61,7 +70,6 @@ namespace MVC.Controllers
         public ActionResult LoadData(Pager pager)
         {
             List<StudentPostDto> StudentModel = studentrepo.GetAllStudents(pager);
-
             return Json(new { draw = pager.draw, recordsFiltered = StudentModel[0].TotalRecord, recordsTotal = StudentModel[0].TotalRecord, data = StudentModel }, JsonRequestBehavior.AllowGet);
         }
     }
